@@ -34,6 +34,7 @@ import {
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { getManufacturer } from "../../components/DeviceInfo";
+import useThemeStore from "../../components/themeStore";
 
 const HomeScreen = ({ navigation }) => {
 
@@ -43,6 +44,10 @@ const [swift, setSwift] = useState("");
 useEffect(() => {
     getManufacturer().then(setKotlin);
 }, []);
+
+const { theme, toggleTheme } = useThemeStore();
+
+const isDark = theme === 'dark';
 
     return (
         <View>
@@ -65,9 +70,19 @@ useEffect(() => {
                         <Divider />
                     </Box>
 
+                    <Box>
+                         <FormControl mb="5">
+                            <FormControl.Label>Tema atual</FormControl.Label>
+                            <Input
+                                isDisabled
+                                value={theme.toUpperCase()}
+                            />
+                        </FormControl>
+                    </Box>
+
                     
                     <Box>
-                        <Button  >Alterar tema </Button>
+                        <Button onPress={toggleTheme} >Alterar tema </Button>
                     </Box>
                 </Stack>
             </ScrollView>
