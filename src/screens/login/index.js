@@ -22,13 +22,6 @@ import {
 
 } from "native-base";
 import axios from "axios";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
-import Icon from "react-native-vector-icons/Ionicons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import ColorsScheme from "../../settings/ColorsScheme";
-import Server from "../../settings/Server";
-import CryptoJS from "crypto-js";
 
 
 const LoginScreen = ({ navigation }) => {
