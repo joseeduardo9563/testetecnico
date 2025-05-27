@@ -33,14 +33,43 @@ import {
 } from "native-base";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
+import { getManufacturer } from "../../components/DeviceInfo";
 
 const HomeScreen = ({ navigation }) => {
-    
+
+const [kotlin, setKotlin] = useState("");
+const [swift, setSwift] = useState("");
+
+useEffect(() => {
+    getManufacturer().then(setKotlin);
+}, []);
 
     return (
         <View>
             <ScrollView w="100%">
-                <Text>Teste</Text>
+                <Stack space={2.5} alignSelf="center" px="4" safeArea mt="4" w={{
+                    base: "100%",
+                    md: "25%"
+                }}>
+                    <Box>
+                        <Text bold fontSize="xl" mb="4">
+                            Teste técnico
+                        </Text>
+                        <FormControl mb="5">
+                            <FormControl.Label>Informação do fabricante</FormControl.Label>
+                            <Input
+                                isDisabled
+                                value={Platform.OS === "ios" ? swift : kotlin}
+                            />
+                        </FormControl>
+                        <Divider />
+                    </Box>
+
+                    
+                    <Box>
+                        <Button  >Alterar tema </Button>
+                    </Box>
+                </Stack>
             </ScrollView>
         </View>
     );
