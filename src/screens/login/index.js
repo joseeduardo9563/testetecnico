@@ -1,78 +1,103 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  StatusBar,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-  Alert,
-  ScrollView,
-  Keyboard,
-  Platform,
+    View,
+    ScrollView,
 } from "react-native";
 import {
-  Text,
-  NativeBaseProvider,
-  Input,
-  Button,
-  ArrowBackIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  VStack,
-
+    Text,
+    Input,
+    Button,
+    Box,
+    FormControl,
+    Stack,
+    Divider,
+    useToast
 } from "native-base";
-import axios from "axios";
-
+import { Controller, useForm } from "react-hook-form";
 
 const LoginScreen = ({ navigation }) => {
-//   const [matricula, setMatricula] = useState("");
-//   const [senha, setSenha] = useState("");
-//   const [isSecurity, setIsSecurity] = useState(true);
 
-//   const getAceite = async (matricula) => {
-//     try {
-//       const response = await axios.get(`${Server.GET}getTermoAceite/${matricula}`);
-//       if (response.data && response.data.flag_termo === 1) {
-//         navigation.navigate("Carteirinha");
-//       } else {
-//         navigation.navigate("Termos");
-//       }
-//     } catch (error) {
-//       console.error(error);
-//       navigation.navigate("Carteirinha");
-//     }
-//   };
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            email: "",
+            senha: "",
+        },
+    });
+    const toast = useToast();
 
-//   const onSubmit = async () => {
-//     if (matricula !== "" && senha !== "") {
-//       Keyboard.dismiss();
-//       try {
-//         const hash = await CryptoJS.SHA1(senha).toString();
-//         const url = `${Server.API}login/autenticate.asp?matricula=${matricula}&senha=6821215D86529AF9FF82DC1009F85A217288A130`;
-//         console.log(url);
-//         const response = await fetch(url);
-//         const responseJson = await response.json();
+    const onSubmit = (data) => {
+        if(data.email == "josee.almeida@outlook.com" && data.senha == "teste123")
+            navigation.navigate("Home");
+        else
+            toast.show({description: "E-mail ou senha incorretos"})
+    };
 
-//         if (responseJson.didFind) {
-//           await AsyncStorage.setItem("@usuario", JSON.stringify(responseJson));
-//           navigation.navigate("Carteirinha");
-//         } else {
-//           Alert.alert("Matrícula ou senha inválidos.", "Verifique os dados e tente novamente.", [{ text: "Tentar novamente" }], { cancelable: false });
-//         }
-//       } catch (error) {
-//         console.error(error);
-//         Alert.alert("Ops! Algo deu errado.", "Tente novamente mais tarde.", [{ text: "OK" }], { cancelable: false });
-//       }
-//     } else {
-//       Alert.alert("Campo vazio.", "Preencha todos os campos e tente novamente.", [{ text: "OK" }], { cancelable: false });
-//     }
-//   };
-
-  return (
-    <VStack space={1} alignItems="center">
-      <Text fontSize="6xl">6xl</Text>
-    </VStack>
-  );
+    return (
+        <View>
+            <ScrollView w="100%">
+                <Stack space={2.5} alignSelf="center" px="4" safeArea mt="4" w={{
+                    base: "100%",
+                    md: "25%"
+                }}>
+                    <Box>
+                        <Text bold fontSize="xl" mb="4">
+                            Teste técnico
+                        </Text>
+                        <FormControl mb="5">
+                            <FormControl.Label>E-mail</FormControl.Label>
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: true,
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <Input
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
+                                    />
+                                )}
+                                name="email"
+                            />
+                            {errors.email && <Text color={"#FF0000"}>Campo obrigatório.</Text>}
+                        </FormControl>
+                        <Divider />
+                    </Box>
+                    <Box>
+                        <FormControl mb="5">
+                            <FormControl.Label>
+                                Senha
+                            </FormControl.Label>
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: true,
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <Input
+                                        type="password"
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
+                                    />
+                                )}
+                                name="senha"
+                            />
+                            {errors.senha && <Text color={"#FF0000"}>Informe a senha para prosseguir.</Text>}
+                        </FormControl>
+                        <Divider />
+                    </Box>
+                    <Box>
+                        <Button onPress={handleSubmit(onSubmit)} >Entrar </Button>
+                    </Box>
+                </Stack>
+            </ScrollView>
+        </View>
+    );
 };
 
 export default LoginScreen;
