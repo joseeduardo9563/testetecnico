@@ -33,11 +33,16 @@ import {
 } from "native-base";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
+import { getManufacturer } from "../../components/DeviceInfo";
 
 const HomeScreen = ({ navigation }) => {
 
 const [kotlin, setKotlin] = useState("");
 const [swift, setSwift] = useState("");
+
+useEffect(() => {
+    getManufacturer().then(setKotlin);
+}, []);
 
     return (
         <View>
@@ -51,7 +56,7 @@ const [swift, setSwift] = useState("");
                             Teste técnico
                         </Text>
                         <FormControl mb="5">
-                            <FormControl.Label>Versão {Platform.OS === "ios" ? "Swift" : "Kotlin"}</FormControl.Label>
+                            <FormControl.Label>Informação do fabricante</FormControl.Label>
                             <Input
                                 isDisabled
                                 value={Platform.OS === "ios" ? swift : kotlin}
