@@ -14,6 +14,7 @@ import {
     useToast
 } from "native-base";
 import { Controller, useForm } from "react-hook-form";
+import { useAuth } from "../../settings/AuthContext";
 
 const LoginScreen = ({ navigation }) => {
 
@@ -29,9 +30,13 @@ const LoginScreen = ({ navigation }) => {
     });
     const toast = useToast();
 
+    const { user, signOut, signIn } = useAuth();
+
     const onSubmit = (data) => {
-        if(data.email == "josee.almeida@outlook.com" && data.senha == "teste123")
+        if(data.email == "josee.almeida@outlook.com" && data.senha == "teste123"){
+            signIn(data);
             navigation.navigate("Home");
+        }
         else
             toast.show({description: "E-mail ou senha incorretos"})
     };
